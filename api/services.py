@@ -1,15 +1,31 @@
+from api.models import Image, Notes,Video,Audio
+from api.serializers import AudioSerializer, ImageSerializer, NotesSerializer, VideoSerializer
 from task_manager import secrets
 import json
 
 def getNotes(userId,bookingId):
-    print(userId,bookingId)
-    # conn = mongo.get_collection(db=secrets.MONGO_DB_1, col=secrets.MONGO_COL_1)
-    # conn2 = mongo.get_collection(db=secrets.MONGO_DB_1, col=secrets.MONGO_COL_2)
-    # cursor = conn.find({"date":on_date}, {"_id":0})
-    # cursor2 = conn2.find({"date":on_date}, {"_id":0})
-    # events_data = loads(dumps(cursor))
-    # breaks_data = loads(dumps(cursor2))
-    # result = events_data+breaks_data
-    return {
-        # 'events_data': result,
+    data=Notes.objects.get(userId=userId,bookingId=bookingId)
+    serializer = NotesSerializer(data)
+    json_data = serializer.data
+    noteId=json_data['notesId']
+    if json_data['isEnable']==True:
+        print(noteId)
+        videos=Video.objects.filter(note=noteId, isEnable=True)
+        serializervid = VideoSerializer(videos,many=True)
+        vid_data = serializervid.data
+        audios=Audio.objects.filter(note=noteId, isEnable=True)
+        serializervid = AudioSerializer(audios,many=True)
+        aud_data = serializervid.data
+        images=Image.objects.filter(note=noteId, isEnable=True)
+        serializerimg = ImageSerializer(images,many=True)
+        img_data = serializerimg.data
+        responsData= {
+        'notes': json_data,
+        'images':img_data,
+        'audio':aud_data,
+        'videos':vid_data
     }
+    else:
+        responsData="No data"
+      
+    return responsData

@@ -1,17 +1,26 @@
 from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import Serializer, CharField, ModelSerializer
 
-from api.models import NotesManager
+from rest_framework import serializers
+from .models import Notes, Audio, Video, Image
 
-
-class NotesSerlizer(ModelSerializer):
-    bookingId= CharField(allow_blank=False,max_length=250)
-    userId= CharField(allow_blank=False,max_length=250)
-    notes= CharField(allow_blank=False,max_length=500)
-    image= CharField(allow_blank=True)
-    audio= CharField(allow_blank=True)
-    video= CharField(allow_blank=True)
-
+class NotesSerializer(serializers.ModelSerializer):
     class Meta:
-            model = NotesManager
-            fields = '__all__'
+        model = Notes
+        fields = '__all__'
+
+class AudioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Audio
+        fields = '__all__'
+
+class VideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Video
+        fields = '__all__'
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = '__all__'
+

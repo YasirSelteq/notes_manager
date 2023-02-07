@@ -44,11 +44,11 @@ def audioUploadToServer(audio):
         ftp.debug = True
         ftp.login(user="user_wbbxroeu", passwd="lwy2k7p6a65f4a98B9ID")
         ftp.cwd('www/notesmanager/audios')
-        file_obj = audio[0]
+        file_obj = audio
         ftp.storbinary('STOR ' + file_obj.name, file_obj.file)
         image_path = 'https://1864597015.rsc.cdn77.org/notesmanager/audios' + '/' + file_obj.name
         ftp.quit()
-        return image_path
+        return  image_path
       except Exception as e:
             print(e)
 
@@ -60,7 +60,7 @@ def videoUploadToServer(video):
         ftp.debug = True
         ftp.login(user="user_wbbxroeu", passwd="lwy2k7p6a65f4a98B9ID")
         ftp.cwd('www/notesmanager/videos')
-        file_obj = video[0]
+        file_obj = video
         ftp.storbinary('STOR ' + file_obj.name, file_obj.file)
         image_path = f'https://1864597015.rsc.cdn77.org/notesmanager/videos' + '/' + file_obj.name
         ftp.quit()
