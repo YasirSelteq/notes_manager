@@ -3,6 +3,7 @@ import ftplib
 import os
 from PIL import Image
 import datetime
+from task_manager import secrets
 
 
 def imageDeleteFromServer(filename):
