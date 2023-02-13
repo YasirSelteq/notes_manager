@@ -15,6 +15,7 @@ from utils.responses import internal_server_error, bad_request, created, not_fou
 from utils.util import validate_page_number,check_file_size,convert_to_mb,compress_media_file
 from django.http import JsonResponse
 import uuid
+from utils.kafkaProducer import producer
 # Create your views here.
 
 class TaskApi(APIView):
@@ -30,7 +31,6 @@ class TaskApi(APIView):
             else:
                 serializer.save()
                 note= serializer.data['notesId']
-                print(note)
                 if img:
                     for image in img:
                         path=imageUploadToServer(image)
@@ -55,8 +55,7 @@ class TaskApi(APIView):
                             return bad_request(data=serializerVid.errors, message='Failed to create Notes')
                         else:
                             serializerVid.save()  
-            return created(data={'name':"Data"},
-                                            message='Notes created successfully')
+            return created(data=note, message='Notes created successfully')
 
         except Exception as err:
             print(traceback.format_exc())
@@ -64,9 +63,12 @@ class TaskApi(APIView):
 
     def get(self, request):
         try:
-            userId = request.query_params.get('userId',None)
-            bookingId = request.query_params.get('bookingId',None)
-            data=services.getNotes(userId,bookingId)
+            data = {'key': 'value'}
+            producer.send('testing-name', b'value')
+            userId = request.GET.get('userId',None)
+            bookingId = request.GET.get('bookingId',None)
+            noteType = request.GET.get('noteType','self')
+            data=services.getNotes(userId,bookingId,noteType)
             return ok(data=data)
         except Exception as err:
             print(traceback.format_exc())

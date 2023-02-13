@@ -6,14 +6,14 @@ import datetime
 from task_manager import secrets
 
 
+
 def imageDeleteFromServer(filename):
     try:
         # Connect to the FTP server
-        newfileName=filename.replace("https://1864597015.rsc.cdn77.org/notesmanager/images/", "")
-        print(newfileName)  
-        ftp = ftplib.FTP_TLS("push-30.cdn77.com")
-        ftp.login(user="user_wbbxroeu", passwd="lwy2k7p6a65f4a98B9ID")
-        ftp.cwd('www/notesmanager/images')
+        newfileName=filename.replace(secrets.CDN_ROUTE_IMAGE, "")
+        ftp = ftplib.FTP_TLS(secrets.FTP_HOST)
+        ftp.login(user=secrets.FTP_USER_NAME, passwd=secrets.FTP_PASSWORD)
+        ftp.cwd(secrets.FTP_CWD_IMAGE)
         ftp.delete(newfileName)
         ftp.quit()
         return "success"
@@ -23,11 +23,10 @@ def imageDeleteFromServer(filename):
 
 def audioDeleteFromServer(filename):
       try:
-        newfileName=filename.replace("https://1864597015.rsc.cdn77.org/notesmanager/audios/", "")
-        print(newfileName)
-        ftp = ftplib.FTP_TLS("push-30.cdn77.com")
-        ftp.login(user="user_wbbxroeu", passwd="lwy2k7p6a65f4a98B9ID")
-        ftp.cwd('www/notesmanager/audios')
+        newfileName=filename.replace(secrets.CDN_ROUTE_AUDIO, "")
+        ftp = ftplib.FTP_TLS(secrets.FTP_HOST)
+        ftp.login(user=secrets.FTP_USER_NAME, passwd=secrets.FTP_PASSWORD)
+        ftp.cwd(secrets.FTP_CWD_AUDIO)
         ftp.delete(newfileName)
         ftp.quit()
         return "success"
@@ -37,11 +36,10 @@ def audioDeleteFromServer(filename):
 
 def videoDeleteFromServer(filename):
     try:
-        newfileName=filename.replace("https://1864597015.rsc.cdn77.org/notesmanager/videos/", "")
-        print(newfileName)
-        ftp = ftplib.FTP_TLS("push-30.cdn77.com")
-        ftp.login(user="user_wbbxroeu", passwd="lwy2k7p6a65f4a98B9ID")
-        ftp.cwd('www/notesmanager/videos')
+        newfileName=filename.replace(secrets.CDN_ROUTE_VIDEO, "")
+        ftp = ftplib.FTP_TLS(secrets.FTP_HOST)
+        ftp.login(user=secrets.FTP_USER_NAME, passwd=secrets.FTP_PASSWORD)
+        ftp.cwd(secrets.FTP_CWD_VIDEO)
         ftp.delete(newfileName)
         ftp.quit()
         return "success"

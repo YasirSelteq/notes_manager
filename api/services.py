@@ -3,29 +3,28 @@ from api.serializers import AudioSerializer, ImageSerializer, NotesSerializer, V
 from task_manager import secrets
 import json
 
-def getNotes(userId,bookingId):
-    data=Notes.objects.get(userId=userId,bookingId=bookingId)
-    serializer = NotesSerializer(data)
+def getNotes(userId,bookingId,noteType):
+    data=Notes.objects.filter(userId=userId, bookingId=bookingId, noteType=noteType)
+    serializer = NotesSerializer(data,many=True)
     json_data = serializer.data
-    noteId=json_data['notesId']
-    if json_data['isEnable']==True:
-        print(noteId)
-        videos=Video.objects.filter(note=noteId, isEnable=True)
-        serializervid = VideoSerializer(videos,many=True)
-        vid_data = serializervid.data
-        audios=Audio.objects.filter(note=noteId, isEnable=True)
-        serializervid = AudioSerializer(audios,many=True)
-        aud_data = serializervid.data
-        images=Image.objects.filter(note=noteId, isEnable=True)
-        serializerimg = ImageSerializer(images,many=True)
-        img_data = serializerimg.data
-        responsData= {
-        'notes': json_data,
-        'images':img_data,
-        'audio':aud_data,
-        'videos':vid_data
-    }
-    else:
-        responsData="No data"
+    responsData=[]
+    for data in json_data:
+        res=data
+        noteId=data['notesId']
+        if data['isEnable']==True:
+            videos=Video.objects.filter(note=noteId, isEnable=True)
+            serializervid = VideoSerializer(videos,many=True)
+            vid_data = serializervid.data
+            audios=Audio.objects.filter(note=noteId, isEnable=True)
+            serializervid = AudioSerializer(audios,many=True)
+            aud_data = serializervid.data
+            images=Image.objects.filter(note=noteId, isEnable=True)
+            serializerimg = ImageSerializer(images,many=True)
+            img_data = serializerimg.data
+            res['images']= img_data
+            res['audio']= aud_data
+            res['videos']= vid_data
+            responsData.append(res)
+
       
     return responsData

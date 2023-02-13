@@ -5,23 +5,27 @@ class Notes(models.Model):
     bookingId = models.CharField(blank=False, max_length=250)
     userId = models.CharField(blank=False, max_length=250)
     notes = models.CharField(blank=False, max_length=500)
-    isEnable = models.BooleanField(blank=False, default=True)
+    isEnable = models.BooleanField(default=True)
     noteType = models.CharField(blank=False, max_length=500, default='self')
+    createdAt = models.DateTimeField(auto_now_add=True)
 
 class Audio(models.Model):
     audioId = models.AutoField(primary_key=True)
     note = models.CharField(blank=False, max_length=250)
     audioUrl = models.CharField(blank=True, max_length=500)
     isEnable = models.BooleanField(blank=False, default=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
 class Video(models.Model):
     videoId = models.AutoField(primary_key=True)
     note = models.CharField(blank=False, max_length=250)
     videoUrl=  models.CharField(blank=True, max_length=500)
     isEnable = models.BooleanField(blank=False, default=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
 class Image(models.Model):
     imageId = models.AutoField(primary_key=True)
     note = models.CharField(blank=False, max_length=250)
     imageUrl =  models.CharField(blank=True, max_length=500)
     isEnable = models.BooleanField(blank=False, default=True)
+    createdAt = models.DateTimeField(auto_now_add=True)

@@ -2,7 +2,7 @@ version: '3.11.1'
 
 services:
    django:
-      image: notes-manager:0.0.l
+      image: notes-manager:0.0.4
       build: .
       ports: 
         - "8000:8000"
